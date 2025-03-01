@@ -22,7 +22,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: "/"  # Cambia esto según tu servidor
+          TARGET: "/home/a23cliferand"  # Cambia esto según tu servidor
           ARGS: "-avz --delete"
       
       - name: Log successful deployment
@@ -32,11 +32,3 @@ jobs:
         run: |
           echo "📂 Listing files in /"
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l"
-
-      - name: Restart application
-        run: |
-          echo "🔄 Restarting application..."
-          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo systemctl restart myapp"
-      
-      - name: Log completion of deployment
-        run: echo "🎉 Deployment completed successfully!"
