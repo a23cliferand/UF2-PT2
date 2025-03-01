@@ -1,0 +1,42 @@
+name: Deploy via SSH
+
+on:
+  push:
+    branches:
+      - main  # Cambia esto a la rama que quieras desplegar
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Log start of deployment
+        run: echo "🚀 Starting deployment..."
+      
+      - name: Deploy using SSH
+        uses: easingthemes/ssh-deploy@v5
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: "/"  # Cambia esto según tu servidor
+          ARGS: "-avz --delete"
+      
+      - name: Log successful deployment
+        run: echo "✅ Files successfully deployed!"
+
+      - name: List files in target directory
+        run: |
+          echo "📂 Listing files in /"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l"
+
+      - name: Restart application
+        run: |
+          echo "🔄 Restarting application..."
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo systemctl restart myapp"
+      
+      - name: Log completion of deployment
+        run: echo "🎉 Deployment completed successfully!"
