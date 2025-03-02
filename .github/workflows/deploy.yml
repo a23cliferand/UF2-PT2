@@ -27,9 +27,11 @@ jobs:
       
       - name: Log successful deployment
         run: echo "✅ Files successfully deployed!"
-    
+
       - name: Run Node.js script on remote server
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -i private_key.pem -o StrictHostKeyChecking=no \
           ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} \
           "cd /root/proj && node index.js"
