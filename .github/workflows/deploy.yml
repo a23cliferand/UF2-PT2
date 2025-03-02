@@ -31,7 +31,7 @@ jobs:
       - name: List files in target directory
         run: |
               echo "📂 Listing files in target directory"
-              ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l /root/proj"
+              ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l ./proj"
     
       - name: Run Node.js script
-        run: node index.js
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l ./proj/index.js"
