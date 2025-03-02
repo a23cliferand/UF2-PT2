@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Log start of deployment
-        run: echo "🚀 Startin deployment..."
+        run: echo "🚀 Starting deployment..."
       
       - name: Deploy using SSH
         uses: easingthemes/ssh-deploy@main
@@ -28,5 +28,8 @@ jobs:
       - name: Log successful deployment
         run: echo "✅ Files successfully deployed!"
     
-      - name: Run Node.js script
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "node ./proj/index.js"
+      - name: Run Node.js script on remote server
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+          ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} \
+          "cd /root/proj && node index.js"
