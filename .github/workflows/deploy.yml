@@ -1,22 +1,22 @@
-name: Deploy via SSH
+name: Desplegar via SSH
 
 on:
   push:
     branches:
-      - main  # Cambia esto a la rama que quieras desplegar
+      - main  # Canvia això a la branca que vulguis desplegar
 
 jobs:
-  deploy:
+  desplegar:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Comprovar repositori
         uses: actions/checkout@v4
       
-      - name: Log start of deployment
-        run: echo "Starting deployment..."
+      - name: Registrar inici del desplegament
+        run: echo "Iniciant desplegament..."
       
-      - name: Deploy using SSH
+      - name: Desplegar utilitzant SSH
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -25,13 +25,13 @@ jobs:
           TARGET: "/root/proj"
           ARGS: "-avz --delete"
       
-      - name: Log successful deployment
-        run: echo "Files successfully deployed!"
+      - name: Registrar desplegament exitós
+        run: echo "Fitxers desplegats amb èxit!"
 
-      - name: Run Node.js script on remote server
+      - name: Executar script Node.js al servidor remot
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
           ssh -i private_key.pem -o StrictHostKeyChecking=no \
           ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} \
-          "cd /root/proj && node index.js"
+          "cd /root/proj/proj && node index.js"
