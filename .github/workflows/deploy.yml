@@ -29,4 +29,4 @@ jobs:
         run: echo "✅ Files successfully deployed!"
     
       - name: Run Node.js script
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l ./proj/index.js"
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "node ./proj/index.js"
