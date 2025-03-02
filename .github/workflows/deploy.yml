@@ -1,37 +1,56 @@
-name: Deploy via SSH
+# name: Deploy via SSH
 
-on:
-  push:
-    branches:
-      - main  # Cambia esto a la rama que quieras desplegar
+# on:
+#   push:
+#     branches:
+#       - main  # Cambia esto a la rama que quieras desplegar
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
       
-      - name: Log start of deployment
-        run: echo "🚀 Startin deployment..."
+#       - name: Log start of deployment
+#         run: echo "🚀 Startin deployment..."
       
-      - name: Deploy using SSH
-        uses: easingthemes/ssh-deploy@v2.1.5
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: "/root/proj"
-          ARGS: "-avz --delete"
+#       - name: Deploy using SSH
+#         uses: easingthemes/ssh-deploy@v2.1.5
+#         with:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+#           REMOTE_USER: ${{ secrets.REMOTE_USER }}
+#           TARGET: "/root/proj"
+#           ARGS: "-avz --delete"
       
-      - name: Log successful deployment
-        run: echo "✅ Files successfully deployed!"
+#       - name: Log successful deployment
+#         run: echo "✅ Files successfully deployed!"
 
-      - name: List files in target directory
-        run: |
-              echo "📂 Listing files in target directory"
-              ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l /root/proj"
+#       - name: List files in target directory
+#         run: |
+#               echo "📂 Listing files in target directory"
+#               ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l /root/proj"
     
-      - name: Run Node.js script
-        run: node index.js
+#       - name: Run Node.js script
+#         run: node index.js
+#         name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+
