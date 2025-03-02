@@ -17,12 +17,12 @@ jobs:
         run: echo "🚀 Starting deployment..."
       
       - name: Deploy using SSH
-        uses: easingthemes/ssh-deploy@main
+        uses: easingthemes/ssh-deploy@v2.1.5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: "/root"  # Cambia esto según tu servidor
+          TARGET: "/root/proj"  # Cambia esto según tu servidor
           ARGS: "-avz --delete"
       
       - name: Log successful deployment
@@ -30,5 +30,8 @@ jobs:
 
       - name: List files in target directory
         run: |
-          echo "📂 Listing files in ?"
-          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l"
+              echo "📂 Listing files in target directory"
+              ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "ls -l /root/proj"
+    
+      - name: Run Node.js script
+        run: node index.js
